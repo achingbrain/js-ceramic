@@ -4,6 +4,7 @@ import { EventEmitter } from "events";
 import { AnchorProof, AnchorStatus } from "./doctype";
 import { CeramicApi } from "./ceramic-api";
 import DocID from "@ceramicnetwork/docid";
+import type { Observable } from "rxjs";
 
 export interface AnchorServicePending {
   readonly status: AnchorStatus.PENDING;
@@ -52,6 +53,11 @@ export abstract class AnchorService extends EventEmitter {
    * Performs whatever initialization work is required by the specific anchor service implementation
    */
   abstract init(): Promise<void>;
+
+  /**
+   * Feed of updates about the document
+   */
+  abstract anchorStatus$(docId: DocID): Observable<AnchorServiceResponse>;
 
   /**
    * Set Ceramic API instance
